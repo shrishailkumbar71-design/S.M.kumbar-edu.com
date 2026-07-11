@@ -139,6 +139,30 @@ footer{
     margin-top:50px;
 }
 
+.admin-create-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #198754;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    z-index: 2000;
+    transition: transform .2s ease, background .2s ease;
+}
+
+.admin-create-btn:hover {
+    transform: scale(1.05);
+    background: #157347;
+}
+
 form{
     max-width:600px;
     margin:auto;
