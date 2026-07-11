@@ -24,12 +24,42 @@ function renderPosts() {
   posts.slice().reverse().forEach((post) => {
     const card = document.createElement('div');
     card.className = 'card';
+    const linkHtml = post.link ? `<p><a href="${escapeHtml(post.link)}" target="_blank" rel="noopener">Open Link</a></p>` : '';
+    card.innerHTML = `
+      <h3>${escapeHtml(post.title)}</h3>
+      <p><strong>${escapeHtml(post.type)} • ${escapeHtml(post.subject || 'General')}</strong></p>
+      <p>${escapeHtml(post.description)}</p>
+      ${linkHtml}
+    `;
+    updatesList.appendChild(card);
+  });
+}
+
+function renderSubjectPosts(subject) {
+  const container = document.getElementById('subjectPostsList');
+  if (!container) return;
+
+  const posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    .filter((post) => (post.subject || 'General') === subject);
+
+  container.innerHTML = '';
+
+  if (posts.length === 0) {
+    container.innerHTML = '<div class="card"><h3>No posts yet</h3><p>Admin-created notes, PDFs, and videos for this subject will appear here.</p></div>';
+    return;
+  }
+
+  posts.slice().reverse().forEach((post) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const linkHtml = post.link ? `<p><a href="${escapeHtml(post.link)}" target="_blank" rel="noopener">Open Link</a></p>` : '';
     card.innerHTML = `
       <h3>${escapeHtml(post.title)}</h3>
       <p><strong>${escapeHtml(post.type)}</strong></p>
       <p>${escapeHtml(post.description)}</p>
+      ${linkHtml}
     `;
-    updatesList.appendChild(card);
+    container.appendChild(card);
   });
 }
 
@@ -48,6 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   renderPosts();
+
+  const subjectPageMap = {
+    'english.html': 'English',
+    'kannada.html': 'Kannada',
+    'hindi.html': 'Hindi',
+    'socialscience.html': 'Social Science'
+  };
+  const currentSubject = subjectPageMap[currentPage];
+  if (currentSubject) {
+    renderSubjectPosts(currentSubject);
+  }
 
   const adminCreateBtn = document.getElementById('adminCreateBtn');
   if (adminCreateBtn) {
@@ -68,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       const title = document.getElementById('postTitle').value.trim();
       const type = document.getElementById('postType').value;
+      const subject = document.getElementById('postSubject').value;
+      const link = document.getElementById('postLink').value.trim();
       const description = document.getElementById('postDescription').value.trim();
 
       if (!title || !description) {
@@ -76,7 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      posts.push({ title, type, description, createdAt: new Date().toISOString() });
+      posts.push({
+        title,
+        type,
+        subject,
+        link,
+        description,
+        createdAt: new Date().toISOString()
+      });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
       alert('Post published successfully.');
       window.location.href = 'index.html';

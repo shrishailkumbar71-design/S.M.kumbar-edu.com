@@ -30,10 +30,20 @@
                 <input id="postTitle" type="text" placeholder="Enter title" required style="margin-bottom: 10px;"><br>
                 <label>Content Type</label><br>
                 <select id="postType" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px;">
-                    <option>Note</option>
-                    <option>Video</option>
-                    <option>Update</option>
+                    <option value="Note">Note</option>
+                    <option value="PDF">PDF</option>
+                    <option value="Video">Video</option>
+                    <option value="Update">Update</option>
                 </select><br>
+                <label>Subject</label><br>
+                <select id="postSubject" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px;">
+                    <option value="English">English</option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Social Science">Social Science</option>
+                </select><br>
+                <label>Link / URL (optional)</label><br>
+                <input id="postLink" type="url" placeholder="https://example.com" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px;"><br>
                 <label>Description</label><br>
                 <textarea id="postDescription" rows="5" placeholder="Enter details" required style="margin-bottom: 10px;"></textarea><br>
                 <button class="btn" type="submit">Publish</button>
