@@ -1,3 +1,38 @@
+const STORAGE_KEY = 'learnKumbarPosts';
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function renderPosts() {
+  const updatesList = document.getElementById('latestUpdatesList');
+  if (!updatesList) return;
+
+  const posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  updatesList.innerHTML = '';
+
+  if (posts.length === 0) {
+    updatesList.innerHTML = '<div class="card"><h3>No updates yet</h3><p>Admin posts will appear here.</p></div>';
+    return;
+  }
+
+  posts.slice().reverse().forEach((post) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <h3>${escapeHtml(post.title)}</h3>
+      <p><strong>${escapeHtml(post.type)}</strong></p>
+      <p>${escapeHtml(post.description)}</p>
+    `;
+    updatesList.appendChild(card);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const year = document.getElementById('year');
   if (year) {
@@ -11,6 +46,42 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.add('active');
     }
   });
+
+  renderPosts();
+
+  const adminCreateBtn = document.getElementById('adminCreateBtn');
+  if (adminCreateBtn) {
+    adminCreateBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      const password = prompt('Enter admin password:');
+      if (password === 'learnwithkumbar') {
+        window.location.href = 'admin.html';
+      } else if (password) {
+        alert('Wrong password');
+      }
+    });
+  }
+
+  const postForm = document.getElementById('postForm');
+  if (postForm) {
+    postForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const title = document.getElementById('postTitle').value.trim();
+      const type = document.getElementById('postType').value;
+      const description = document.getElementById('postDescription').value.trim();
+
+      if (!title || !description) {
+        alert('Please enter both title and description.');
+        return;
+      }
+
+      const posts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      posts.push({ title, type, description, createdAt: new Date().toISOString() });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+      alert('Post published successfully.');
+      window.location.href = 'index.html';
+    });
+  }
 
   // Dark Mode Toggle
   const darkButton = document.createElement('button');

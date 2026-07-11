@@ -19,17 +19,25 @@
 
     <section class="hero">
         <h2>Admin Create Panel</h2>
-        <p>Add new notes, videos, or updates from here.</p>
+        <p>Authorized users can add notes, videos, and updates here.</p>
     </section>
 
     <section class="subjects">
-        <div class="card">
-            <h3>Create New Note</h3>
-            <p>Use this section to publish a new note or study material.</p>
-        </div>
-        <div class="card">
-            <h3>Create New Video</h3>
-            <p>Drop in a new video link or embed when ready.</p>
+        <div class="card" style="width: 100%; max-width: 700px; text-align: left;">
+            <h3>Create New Content</h3>
+            <form id="postForm">
+                <label>Title</label><br>
+                <input id="postTitle" type="text" placeholder="Enter title" required style="margin-bottom: 10px;"><br>
+                <label>Content Type</label><br>
+                <select id="postType" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px;">
+                    <option>Note</option>
+                    <option>Video</option>
+                    <option>Update</option>
+                </select><br>
+                <label>Description</label><br>
+                <textarea id="postDescription" rows="5" placeholder="Enter details" required style="margin-bottom: 10px;"></textarea><br>
+                <button class="btn" type="submit">Publish</button>
+            </form>
         </div>
     </section>
 

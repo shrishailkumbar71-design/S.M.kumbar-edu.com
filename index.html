@@ -12,7 +12,10 @@
 <body>
   <header>
     <nav>
-      <h1>Learn With Kumbar Sir</h1>
+      <div class="brand">
+        <div class="brand-logo">L</div>
+        <h1>Learn With Kumbar Sir</h1>
+      </div>
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="english.html">English</a></li>
@@ -63,15 +66,7 @@
       </div>
 
       <h2>Latest Updates</h2>
-      <div class="card">
-        <h3>New English Notes Uploaded</h3>
-        <p>Latest SSLC Grammar Notes are available.</p>
-      </div>
-
-      <div class="card">
-        <h3>Kannada Chapter Summary</h3>
-        <p>New summaries added for Board Exam.</p>
-      </div>
+      <div id="latestUpdatesList" class="updates-list"></div>
     </section>
   </main>
 
@@ -79,7 +74,7 @@
     <p>© <span id="year"></span> Learn With Kumbar Sir | All Rights Reserved</p>
   </footer>
 
-  <a href="admin.html" class="admin-create-btn" aria-label="Admin create content" title="Create content">+</a>
+  <a href="#" id="adminCreateBtn" class="admin-create-btn" aria-label="Admin create content" title="Create content">+</a>
 
   <script src="js/script.js"></script>
 </body>
