@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'learnKumbarPosts';
-const ADMIN_PASSWORD = 'kumbar123';
+const ADMIN_PASSWORD = 'shrishail@1980';
 const ADMIN_AUTH_KEY = 'learnKumbarAdminAuthenticated';
 
 function escapeHtml(value) {
