@@ -208,6 +208,51 @@ button.btn{
     cursor:pointer;
 }
 
+.admin-actions {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:10px;
+}
+
+.btn-secondary {
+    background:#6c757d;
+    color:white;
+}
+
+.btn-secondary:hover {
+    background:#5a6268;
+}
+
+.admin-post-card {
+    width:100%;
+    max-width:none;
+    text-align:left;
+    margin:0 0 12px;
+}
+
+.admin-post-card .admin-actions {
+    margin-top:12px;
+}
+
+.edit-post-btn {
+    background:#198754;
+    color:white;
+}
+
+.edit-post-btn:hover {
+    background:#157347;
+}
+
+.delete-post-btn {
+    background:#dc3545;
+    color:white;
+}
+
+.delete-post-btn:hover {
+    background:#b02a37;
+}
+
 .dark-mode {
     background:#121212;
     color:white;

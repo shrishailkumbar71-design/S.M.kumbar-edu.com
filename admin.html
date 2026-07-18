@@ -23,9 +23,10 @@
     </section>
 
     <section class="subjects">
-        <div class="card" style="width: 100%; max-width: 700px; text-align: left;">
-            <h3>Create New Content</h3>
+        <div class="card" style="width: 100%; max-width: 900px; text-align: left;">
+            <h3>Create / Edit Content</h3>
             <form id="postForm">
+                <input id="postId" type="hidden">
                 <label>Title</label><br>
                 <input id="postTitle" type="text" placeholder="Enter title" required style="margin-bottom: 10px;"><br>
                 <label>Content Type</label><br>
@@ -46,8 +47,16 @@
                 <input id="postLink" type="url" placeholder="https://example.com" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px;"><br>
                 <label>Description</label><br>
                 <textarea id="postDescription" rows="5" placeholder="Enter details" required style="margin-bottom: 10px;"></textarea><br>
-                <button class="btn" type="submit">Publish</button>
+                <div class="admin-actions">
+                    <button class="btn" id="submitPostBtn" type="submit">Publish</button>
+                    <button class="btn btn-secondary" id="cancelEditBtn" type="button" style="display:none;">Cancel Edit</button>
+                </div>
             </form>
+        </div>
+
+        <div class="card" style="width: 100%; max-width: 900px; text-align: left; margin-top: 20px;">
+            <h3>Manage Published Posts</h3>
+            <div id="adminPostsList" class="updates-list"></div>
         </div>
     </section>
 
