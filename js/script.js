@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'learnKumbarPosts';
+const ADMIN_PASSWORD = 'kumbar123';
+const ADMIN_AUTH_KEY = 'learnKumbarAdminAuthenticated';
 
 function escapeHtml(value) {
   return String(value)
@@ -44,6 +46,37 @@ function savePosts(posts) {
   }));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
   window.dispatchEvent(new Event('posts:updated'));
+}
+
+function isAdminAuthenticated() {
+  return sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
+}
+
+function setAdminAuthenticated(isAuthenticated) {
+  if (isAuthenticated) {
+    sessionStorage.setItem(ADMIN_AUTH_KEY, 'true');
+  } else {
+    sessionStorage.removeItem(ADMIN_AUTH_KEY);
+  }
+}
+
+function requireAdminAccess() {
+  if (isAdminAuthenticated()) {
+    return true;
+  }
+
+  const enteredPassword = window.prompt('Enter admin password to create or edit content:', '');
+  if (enteredPassword === null) {
+    return false;
+  }
+
+  if (enteredPassword !== ADMIN_PASSWORD) {
+    alert('Incorrect password. Access denied.');
+    return false;
+  }
+
+  setAdminAuthenticated(true);
+  return true;
 }
 
 function renderPosts() {
@@ -219,6 +252,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+  if (currentPage === 'admin.html' && !isAdminAuthenticated()) {
+    const accessGranted = requireAdminAccess();
+    if (!accessGranted) {
+      window.location.href = 'index.html';
+      return;
+    }
+  }
   document.querySelectorAll('nav a').forEach((link) => {
     const href = link.getAttribute('href');
     if (href && href.endsWith(currentPage)) {
@@ -240,6 +281,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (postForm) {
     postForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      if (!requireAdminAccess()) {
+        return;
+      }
+
       const title = document.getElementById('postTitle').value.trim();
       const type = document.getElementById('postType').value;
       const subject = document.getElementById('postSubject').value;
@@ -294,11 +339,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!post) return;
 
       if (button.classList.contains('edit-post-btn')) {
+        if (!requireAdminAccess()) {
+          return;
+        }
         populatePostForm(post);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       if (button.classList.contains('delete-post-btn')) {
+        if (!requireAdminAccess()) {
+          return;
+        }
         const confirmed = window.confirm(`Delete "${post.title}"?`);
         if (!confirmed) return;
         const remainingPosts = posts.filter((item) => item.id !== postId);
